@@ -1,10 +1,4 @@
 
-# Avaliação Java Back-end Attornatus
-
-Esta API foi desenvolvida em Java Spring Boot para o teste prático da Attornatus.
-
-
-
 ## Como Usar
 
 ### Passo 1
@@ -15,6 +9,8 @@ Você vai ver no console algo assim:
 ![](https://i.imgur.com/Kv7uDed.png "example")
 
 Se você ver isso, significa que está no caminho certo.
+
+Obs: Caso queira usar o Endpoint do banco de dados H2 "/h2-console" não esqueça de verificar no console a url jdbc. Pois nas mais novas versões não é possível modificar a url pelas properties.
 
 ### Passo 2
 
