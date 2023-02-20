@@ -25,23 +25,23 @@ Caso o projeto esteja rodando sem problemas, é nesse momento que vamos começar
 #### Todas Endpoints
 Começando pelas Endpoint de GET  
 
-- "/pessoas" - Listar pessoas
-- "/pessoas/{pessoaId}" - Consultar Pessoa usando seu Id e também listar endereços da pessoa
-- "/pessoas/nome/{nomePessoa}" - Consultar Pessoa usando seu Nome completo. Obs: Endpoint é sensível a maiúsculas e minúsculas
+- "/api/pessoas" - Listar pessoas
+- "/api/pessoas/{pessoaId}" - Consultar Pessoa usando seu Id e também listar endereços da pessoa
+- "/api/pessoas/nome/{nomePessoa}" - Consultar Pessoa usando seu Nome completo. Obs: Endpoint é sensível a maiúsculas e minúsculas
 
 Endpoint PUT  
 
-- "/pessoas" - Editar uma Pessoa
-- "/pessoas/{pessoaId}" -  Criar Endereço para uma Pessoa
-- "/pessoas/{pessoaId}/endereco/{enderecoId}" - Informar qual Endereço principal da Pessoa
+- "/api/pessoas" - Editar uma Pessoa
+- "/api/pessoas/{pessoaId}" -  Criar Endereço para uma Pessoa
+- "/api/pessoas/{pessoaId}/endereco/{enderecoId}" - Informar qual Endereço principal da Pessoa
 
 Endpoint POST  
 
-- "/pessoas" - Criar uma Pessoa
+- "/api/pessoas" - Criar uma Pessoa
 
 Endpoint DELETE  
 
-- "/pessoas/{pessoaId}" - Deletar uma Pessoa | Este Endpoint não tinha no teste mas coloquei para testes.
+- "/api/pessoas/{pessoaId}" - Deletar uma Pessoa | Este Endpoint não tinha no teste mas coloquei para testes.
 
 #### Usando as Endpoints
 
