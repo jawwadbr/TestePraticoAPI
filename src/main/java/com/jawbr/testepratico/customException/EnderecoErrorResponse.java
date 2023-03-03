@@ -1,4 +1,4 @@
-package com.jawbr.testepratico.attornatus.customException;
+package com.jawbr.testepratico.customException;
 
 public class EnderecoErrorResponse {
 

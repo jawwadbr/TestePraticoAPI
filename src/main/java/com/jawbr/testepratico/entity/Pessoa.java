@@ -1,4 +1,4 @@
-package com.jawbr.testepratico.attornatus.entity;
+package com.jawbr.testepratico.entity;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -6,8 +6,8 @@ import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonView;
-import com.jawbr.testepratico.attornatus.jsonViews.PessoaSemEndereco;
-import com.jawbr.testepratico.attornatus.jsonViews.PessoaComEndereco;
+import com.jawbr.testepratico.jsonViews.PessoaComEndereco;
+import com.jawbr.testepratico.jsonViews.PessoaSemEndereco;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;

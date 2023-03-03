@@ -1,4 +1,4 @@
-package com.jawbr.testepratico.attornatus.jsonViews;
+package com.jawbr.testepratico.jsonViews;
 
 public interface PessoaComEndereco extends PessoaSemEndereco{
 

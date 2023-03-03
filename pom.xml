@@ -11,8 +11,8 @@
 	<groupId>com.jawbr.testepratico</groupId>
 	<artifactId>attornatus</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>TestePraticoAttornatus</name>
-	<description>Teste pratico Attornatus, criar API usando Java Spring Boot com DB H2</description>
+	<name>TestePratico</name>
+	<description>Teste pratico, criar API usando Java Spring Boot com DB H2</description>
 	<properties>
 		<java.version>17</java.version>
 	</properties>

@@ -1,4 +1,4 @@
-package com.jawbr.testepratico.attornatus.customException;
+package com.jawbr.testepratico.customException;
 
 @SuppressWarnings("serial")
 public class EnderecoNotFoundException extends RuntimeException {

@@ -1,13 +1,13 @@
-package com.jawbr.testepratico.attornatus;
+package com.jawbr.testepratico;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class TestePraticoAttornatusApplication {
+public class TestePraticoApplication {
 
 	public static void main(String[] args) {
-		SpringApplication.run(TestePraticoAttornatusApplication.class, args);
+		SpringApplication.run(TestePraticoApplication.class, args);
 	}
 
 }

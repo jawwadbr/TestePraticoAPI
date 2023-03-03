@@ -1,7 +1,7 @@
-package com.jawbr.testepratico.attornatus.entity;
+package com.jawbr.testepratico.entity;
 
 import com.fasterxml.jackson.annotation.JsonView;
-import com.jawbr.testepratico.attornatus.jsonViews.PessoaComEndereco;
+import com.jawbr.testepratico.jsonViews.PessoaComEndereco;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;

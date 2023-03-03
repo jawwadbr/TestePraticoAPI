@@ -1,4 +1,4 @@
-package com.jawbr.testepratico.attornatus.RestController;
+package com.jawbr.testepratico.RestController;
 
 import java.text.ParseException;
 import java.time.LocalDate;
@@ -15,18 +15,19 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.fasterxml.jackson.annotation.JsonView;
-import com.jawbr.testepratico.attornatus.customException.PessoaNotFoundException;
-import com.jawbr.testepratico.attornatus.entity.Endereco;
-import com.jawbr.testepratico.attornatus.entity.Pessoa;
-import com.jawbr.testepratico.attornatus.jsonViews.PessoaComEndereco;
-import com.jawbr.testepratico.attornatus.jsonViews.PessoaSemEndereco;
-import com.jawbr.testepratico.attornatus.service.EnderecoService;
-import com.jawbr.testepratico.attornatus.service.PessoaService;
+import com.jawbr.testepratico.customException.EnderecoNotFoundException;
+import com.jawbr.testepratico.customException.PessoaNotFoundException;
+import com.jawbr.testepratico.entity.Endereco;
+import com.jawbr.testepratico.entity.Pessoa;
+import com.jawbr.testepratico.jsonViews.PessoaComEndereco;
+import com.jawbr.testepratico.jsonViews.PessoaSemEndereco;
+import com.jawbr.testepratico.service.EnderecoService;
+import com.jawbr.testepratico.service.PessoaService;
 
 import jakarta.annotation.PostConstruct;
 
 @RestController
-@RequestMapping("/api")
+@RequestMapping("/api/pessoas")
 public class PessoaRestController {
 
 	@Autowired
@@ -37,17 +38,17 @@ public class PessoaRestController {
 	
 	// Endpoint para GET "/pessoas" | LISTAR PESSOAS
 	@JsonView(PessoaSemEndereco.class)
-	@GetMapping("/pessoas")
+	@GetMapping()
 	public List<Pessoa> getPessoas() {
-		return pessoaService.getAllPessoas();
+		return pessoaService.findAll();
 	}
 	
 	// Endpoint GET "/pessoas/{pessoaId}" - Pegar Pessoa especifica e listar endereços | CONSULTAR PESSOAS e LISTAR ENDEREÇOS DA PESSOA
 	@JsonView(PessoaComEndereco.class)
-	@GetMapping("/pessoas/{pessoaId}")
+	@GetMapping("/{pessoaId}")
 	public Pessoa getPessoa(@PathVariable int pessoaId) {
 		
-		Pessoa thePessoa = pessoaService.getPessoa(pessoaId);
+		Pessoa thePessoa = pessoaService.findById(pessoaId);
 		
 		if(thePessoa == null) {
 			throw new PessoaNotFoundException("Pessoa não encontrada - " + pessoaId);
@@ -57,96 +58,105 @@ public class PessoaRestController {
 	}
 	
 	// ATENCÃO É NECESSARIO COLOCAR O NOME COMPLETO E É CASE SENSITIVE
-	@GetMapping("/pessoas/nome/{nomePessoa}")
+	@GetMapping("/nome/{nomePessoa}")
 	public Pessoa getPessoa(@PathVariable String nomePessoa) {
 		
-		Pessoa thePessoa = pessoaService.getPessoa(nomePessoa);
+		Pessoa thePessoa = pessoaService.findByNome(nomePessoa);
 		
 		if(thePessoa == null) {
-			throw new PessoaNotFoundException("Pessoa não encontrada - " + nomePessoa); // TRATAR A EXCEPTIONS COM UMA CUSTOMIZADA
+			throw new PessoaNotFoundException("Pessoa não encontrada - " + nomePessoa);
 		}
 		
 		return thePessoa;
 	}
 	
 	// Endpoint POST "/pessoas" - Criar Pessoa | CRIAR UMA PESSOA
-	@PostMapping("/pessoas")
+	@PostMapping()
 	public Pessoa savePessoa(@RequestBody Pessoa thePessoa) {
 		
-		pessoaService.savePessoa(thePessoa);
+		// Forçar a criar uma nova Pessoa
+		thePessoa.setId(0);
+		
+		pessoaService.save(thePessoa);
 		
 		return thePessoa;
 	}
 	
 	// Endpoint PUT "/pessoas" - Update Pessoa | EDITAR UMA PESSOA
-	@PutMapping("/pessoas")
+	@PutMapping()
 	public Pessoa updatePessoa(@RequestBody Pessoa thePessoa) {
 		
-		pessoaService.updatePessoa(thePessoa);
+		pessoaService.save(thePessoa);
 		
 		return thePessoa;
 	}
 	
 	// Endpoint DELETE "/pessoas/{pessoaId}" - Deletar Pessoa por ID | ---NÃO TEM NO TESTE---
-	@DeleteMapping("/pessoas/{pessoaId}")
+	@DeleteMapping("/{pessoaId}")
 	public String deletePessoa(@PathVariable int pessoaId) {
 		
-		Pessoa thePessoa = pessoaService.getPessoa(pessoaId);
+		Pessoa thePessoa = pessoaService.findById(pessoaId);
 		
 		if(thePessoa == null) {
-			throw new PessoaNotFoundException("Pessoa não encontrada - " + pessoaId); // TRATAR A EXCEPTIONS COM UMA CUSTOMIZADA
+			throw new PessoaNotFoundException("Pessoa não encontrada - " + pessoaId);
 		}
 		
-		pessoaService.deletePessoa(thePessoa);
+		pessoaService.delete(thePessoa);
 		
 		return thePessoa.getNome() + " foi Deletado(a)!";
 	}
 	
 	// Endpoint PUT "/pessoas/{pessoaId}" - CRIAR ENDEREÇO PARA PESSOA
-	@PutMapping("/pessoas/{pessoaId}")
+	@PutMapping("/{pessoaId}")
 	public Pessoa saveEnderecoPessoa(@RequestBody Endereco theEndereco, @PathVariable int pessoaId) {
 		
-		Pessoa thePessoa = pessoaService.getPessoa(pessoaId);
+		Pessoa thePessoa = pessoaService.findById(pessoaId);
 		
 		if(thePessoa == null) {
-			throw new PessoaNotFoundException("Pessoa não encontrada - " + pessoaId); // TRATAR A EXCEPTIONS COM UMA CUSTOMIZADA
+			throw new PessoaNotFoundException("Pessoa não encontrada - " + pessoaId);
 		}
 		
 		thePessoa.addEndereco(theEndereco);
 		
-		pessoaService.updatePessoa(thePessoa);
+		pessoaService.save(thePessoa);
 		
 		return thePessoa;
 	}
 	
 	// PODER INFORMAR QUAL ENDEREÇO É O PRINCIPAL DA PESSOA
-	@PutMapping("/pessoas/{pessoaId}/endereco/{enderecoId}")
+	@PutMapping("/{pessoaId}/endereco/{enderecoId}")
 	public Pessoa setEnderecoPrincipal(@PathVariable int pessoaId, @PathVariable int enderecoId) {
 		
-		Pessoa thePessoa = pessoaService.getPessoa(pessoaId);
+		Pessoa thePessoa = pessoaService.findById(pessoaId);
 		
-		Endereco theEndereco = enderecoService.getEndereco(enderecoId);
+		Endereco theEndereco = enderecoService.findById(enderecoId);
 		
 		if(thePessoa == null) {
 			throw new PessoaNotFoundException("Pessoa não encontrada - " + pessoaId);
 		}
 		if(theEndereco == null) {
-			throw new PessoaNotFoundException("Endereço não encontrado - " + enderecoId);
+			throw new EnderecoNotFoundException("Endereço não encontrado - " + enderecoId);
 		}
 		
 		// Forçar apenas 1 endereço principal
 		List<Endereco> tempEnderecos = thePessoa.getEnderecos();
-		for (Endereco e : tempEnderecos) {
-			if(e.getId() == enderecoId && !e.isEnderecoPrincipal()) {
-				e.setEnderecoPrincipal(true);
+		boolean foundEndereco = false;
+		for (Endereco endereco : tempEnderecos) {
+			if(endereco.getId() == enderecoId && !endereco.isEnderecoPrincipal()) {
+				foundEndereco = true;
+				endereco.setEnderecoPrincipal(true);
 			}
 			else {
-				e.setEnderecoPrincipal(false);
+				endereco.setEnderecoPrincipal(false);
 			}
 		}
 		
-		enderecoService.updateEndereco(theEndereco);
-		pessoaService.updatePessoa(thePessoa);
+		if(!foundEndereco) {
+			throw new EnderecoNotFoundException(String.format("Endereço de id '%d' não encontrado na lista de endereços da pessoa de id '%d'.", enderecoId, pessoaId));
+		}
+		
+		enderecoService.save(theEndereco);
+		pessoaService.save(thePessoa);
 		
 		return thePessoa;
 	}
@@ -171,10 +181,10 @@ public class PessoaRestController {
 		
 		p3.addEndereco(new Endereco("Rua Peixoto, Morada III", 98765431, 210, "Gravatai"));
 		
-		pessoaService.savePessoa(p1);
-		pessoaService.savePessoa(p2);
-		pessoaService.savePessoa(p3);
-		pessoaService.savePessoa(p4);
+		pessoaService.save(p1);
+		pessoaService.save(p2);
+		pessoaService.save(p3);
+		pessoaService.save(p4);
 	}
 	
 }

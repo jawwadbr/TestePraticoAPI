@@ -1,7 +1,7 @@
 
-# Avaliação Java Back-end Attornatus
+# Avaliação Java Back-end
 
-Esta API foi desenvolvida em Java Spring Boot para o teste prático da Attornatus.
+Esta API foi desenvolvida em Java Spring Boot para o teste prático.
 
 
 
@@ -82,7 +82,3 @@ Endpoints usadas no vídeo.
 - PUT ```http://localhost:8080/api/pessoas/5/endereco/6```
 
 Atenção: Não esqueça de usar a opção Body > Raw > JSON ao criar algo na API.
-
-### Observações
-
-Este projeto utiliza as versões mais recentes do Hibernate e Spring. Portanto, alguns métodos podem estar desatualizados ("deprecated"). Embora eu tenha aprendido Hibernate e Spring nas versões para Java 8 e 11, estou atualizando meu conhecimento e consultando a documentação das novas versões para garantir a qualidade do projeto.

@@ -1,4 +1,4 @@
-package com.jawbr.testepratico.attornatus.customException;
+package com.jawbr.testepratico.customException;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
