@@ -9,7 +9,7 @@ Esta API foi desenvolvida em Java Spring Boot para o teste prático.
 
 ### Passo 1
 
-Baixe o projeto, importe o projeto Maven em uma IDE e execute como aplicativo a classe '[TestePraticoAttornatusApplication.java](https://github.com/jawwadbr/TestePraticoAttornatus/blob/main/src/main/java/com/jawbr/testepratico/attornatus/TestePraticoAttornatusApplication.java)'
+Baixe o projeto ou clone, importe o projeto Maven em uma IDE e execute como aplicativo a classe '[TestePraticoApplication .java](https://github.com/jawwadbr/TestePraticoAPI/blob/main/src/main/java/com/jawbr/testepratico/TestePraticoApplication.java)'
 
 Você vai ver no console algo assim: 
 ![](https://i.imgur.com/Kv7uDed.png "example")
