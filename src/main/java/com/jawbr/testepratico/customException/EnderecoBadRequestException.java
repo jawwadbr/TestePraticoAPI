@@ -1,26 +1,20 @@
 package com.jawbr.testepratico.customException;
 
+import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.ResponseStatus;
+
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-public class EnderecoErrorResponse {
+@ResponseStatus(value = HttpStatus.BAD_REQUEST)
+public class EnderecoBadRequestException extends RuntimeException {
 
-    private int status;
     private String message;
     private String timeStamp;
 
-    public EnderecoErrorResponse(int status, String message, long timeStamp) {
-        this.status = status;
+    public EnderecoBadRequestException(String message, long timeStamp) {
         this.message = message;
         this.timeStamp = formatTimestamp(timeStamp);
-    }
-
-    public int getStatus() {
-        return status;
-    }
-
-    public void setStatus(int status) {
-        this.status = status;
     }
 
     public String getMessage() {
@@ -35,8 +29,8 @@ public class EnderecoErrorResponse {
         return timeStamp;
     }
 
-    public void setTimeStamp(long timeStamp) {
-        this.timeStamp = formatTimestamp(timeStamp);
+    public void setTimeStamp(String timeStamp) {
+        this.timeStamp = timeStamp;
     }
 
     private String formatTimestamp(long timeStamp) {

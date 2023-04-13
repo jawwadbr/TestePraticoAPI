@@ -1,14 +1,6 @@
 package com.jawbr.testepratico.entity;
 
-import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.List;
-
 import com.fasterxml.jackson.annotation.JsonFormat;
-import com.fasterxml.jackson.annotation.JsonView;
-import com.jawbr.testepratico.jsonViews.PessoaComEndereco;
-import com.jawbr.testepratico.jsonViews.PessoaSemEndereco;
-
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -20,27 +12,27 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 
+import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
+
 @Entity
 @Table(name = "pessoa")
 public class Pessoa {
 	
-	
-	@JsonView(PessoaSemEndereco.class)
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "id")
 	private int id;
-	
-	@JsonView(PessoaSemEndereco.class)
+
 	@Column(name = "nome")
 	private String nome;
-	
-	@JsonView(PessoaSemEndereco.class)
+
 	@Column(name = "data_nascimento")
 	@JsonFormat(pattern = "dd/MM/yyyy")
 	private LocalDate dataDeNascimento;
-	
-	@JsonView(PessoaComEndereco.class)
+
 	@OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
 	@JoinColumn(name = "pessoa_id")
 	private List<Endereco> enderecos;
@@ -88,6 +80,10 @@ public class Pessoa {
 
 	public void setEnderecos(List<Endereco> enderecos) {
 		this.enderecos = enderecos;
+	}
+
+	public void setEndereco(Endereco endereco) {
+		this.enderecos.add(endereco);
 	}
 	
 	@Override

@@ -1,45 +1,41 @@
 package com.jawbr.testepratico.entity;
 
-import com.fasterxml.jackson.annotation.JsonView;
-import com.jawbr.testepratico.jsonViews.PessoaComEndereco;
-
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 
 @Entity
 @Table(name = "endereco")
 public class Endereco {
 
-	@JsonView(PessoaComEndereco.class)
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "id")
 	private int id;
-	
-	@JsonView(PessoaComEndereco.class)
+
 	@Column(name = "logradouro")
 	private String logradouro;
-	
-	@JsonView(PessoaComEndereco.class)
+
 	@Column(name = "cep")
 	private long cep;
-	
-	@JsonView(PessoaComEndereco.class)
+
 	@Column(name = "numero")
 	private int numero;
-	
-	@JsonView(PessoaComEndereco.class)
+
 	@Column(name = "cidade")
 	private String cidade;
-	
-	@JsonView(PessoaComEndereco.class)
+
 	@Column(name = "endereco_principal")
 	private boolean enderecoPrincipal;
-	
+
 	public Endereco() {}
 
 	public Endereco(String logradouro, long cep, int numero, String cidade) {

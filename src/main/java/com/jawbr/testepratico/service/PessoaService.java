@@ -1,19 +1,22 @@
 package com.jawbr.testepratico.service;
 
 import java.util.List;
+import java.util.Optional;
 
 import com.jawbr.testepratico.entity.Pessoa;
 
 public interface PessoaService {
 
-	public List<Pessoa> findAll();
+	List<Pessoa> findAll();
 	
-	public Pessoa findById(int pessoaId);
+	Pessoa findById(int pessoaId);
 	
-	public Pessoa findByNome(String pessoaNome);
+	Pessoa findByNome(String pessoaNome);
 	
-	public void save(Pessoa pessoa);
+	void save(Pessoa pessoa);
 
-	public void delete(Pessoa thePessoa);
+	void update(Optional<Pessoa> pessoa);
+
+	void delete(int pessoaId);
 	
 }
