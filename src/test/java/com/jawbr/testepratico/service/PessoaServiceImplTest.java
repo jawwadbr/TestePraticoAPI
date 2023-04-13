@@ -24,7 +24,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 @TestPropertySource("/application.properties")
 @SpringBootTest
-class PessoaServiceImplTest { // TESTES IMCOMPLETOS - Finalizar ainda
+class PessoaServiceImplTest { // TESTES INCOMPLETOS - Finalizar ainda
 
     @Autowired
     private JdbcTemplate jdbc;

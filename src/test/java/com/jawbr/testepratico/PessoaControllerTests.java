@@ -6,7 +6,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 @SpringBootTest
 public class PessoaControllerTests {
 
-    // Teste de cada endpoint - IMCOMPLETO
+    // Teste de cada endpoint - INCOMPLETO
 
     @Test
     void getAllPessoas() {
