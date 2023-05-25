@@ -1,0 +1,9 @@
+package com.jawbr.testepratico.DAO;
+
+import com.jawbr.testepratico.entity.User;
+import org.springframework.data.jpa.repository.JpaRepository;
+
+public interface UserRepository extends JpaRepository<User, Integer> {
+
+    User findByUsername(String username);
+}

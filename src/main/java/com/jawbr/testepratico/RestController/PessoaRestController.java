@@ -1,9 +1,10 @@
 package com.jawbr.testepratico.RestController;
 
-import com.jawbr.testepratico.entity.Endereco;
 import com.jawbr.testepratico.entity.Pessoa;
+import com.jawbr.testepratico.entity.User;
 import com.jawbr.testepratico.service.EnderecoService;
 import com.jawbr.testepratico.service.PessoaService;
+import com.jawbr.testepratico.service.UserService;
 import jakarta.annotation.PostConstruct;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -18,7 +19,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.text.ParseException;
-import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
@@ -27,13 +27,14 @@ import java.util.Optional;
 public class PessoaRestController {
 
     private final PessoaService pessoaService;
-
     private final EnderecoService enderecoService;
+    private final UserService userService;
 
     @Autowired
-    public PessoaRestController(PessoaService pessoaService, EnderecoService enderecoService) {
+    public PessoaRestController(PessoaService pessoaService, EnderecoService enderecoService, UserService userService) {
         this.pessoaService = pessoaService;
         this.enderecoService = enderecoService;
+        this.userService = userService;
     }
 
     // Endpoint para GET "/pessoas" | LISTAR PESSOAS
@@ -95,5 +96,18 @@ public class PessoaRestController {
 //        pessoaService.save(p3);
 //        pessoaService.save(p4);
 //    }
+
+    // PostConstruct para inserir um usuario ADMIN para ter acesso as endpoints
+    @PostConstruct
+    private void insertAdminUser() throws ParseException {
+
+        User user = new User();
+        user.setUsername("admin");
+        user.setPassword("admin");
+        user.setActive(true);
+        user.setRole("ROLE_ADMIN");
+
+        userService.save(user);
+    }
 
 }
