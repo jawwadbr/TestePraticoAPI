@@ -4,19 +4,30 @@
 Esta API foi desenvolvida em Java Spring Boot para o teste prático.
 
 
-
 ## Como Usar
 
 ### Passo 1
 
-Baixe o projeto ou clone, importe o projeto Maven em uma IDE e execute como aplicativo a classe '[TestePraticoApplication .java](https://github.com/jawwadbr/TestePraticoAPI/blob/main/src/main/java/com/jawbr/testepratico/TestePraticoApplication.java)'
+Baixe o projeto ou clone, importe o projeto Maven em uma IDE e execute como aplicativo a classe '[TestePraticoApplication .java](https://github.com/jawwadbr/TestePraticoAPI/blob/main/src/main/java/com/jawbr/testepratico/ApiPessoaApplication.java)'
+
+É possível também iniciar o projeto navegando até o projeto com o comando:
+
+`cd <project-name>`
+
+Construa o projeto:
+
+`mvn clean install`
+
+Execute com o comando:
+
+`mvn spring-boot:run`
+
+A API vai ficar disponível em `http://localhost:8080/api/**`.
 
 Você vai ver no console algo assim: 
 ![](https://i.imgur.com/Kv7uDed.png "example")
 
 Se você ver isso, significa que está no caminho certo.
-
-Obs: Caso queira usar o Endpoint do banco de dados H2 "/h2-console" não esqueça de verificar no console a url jdbc. Pois nas mais novas versões não é possível modificar a url pelas properties.
 
 ### Passo 2
 
@@ -25,32 +36,31 @@ Caso o projeto esteja rodando sem problemas, é nesse momento que vamos começar
 #### Todas Endpoints
 Começando pelas Endpoint de GET  
 
-- ```"/api/pessoas"```- Listar pessoas
-- ```"/api/pessoas/{pessoaId}"``` - Consultar Pessoa usando seu Id e também listar endereços da pessoa
-- ```"/api/pessoas/nome/{nomePessoa}"``` - Consultar Pessoa usando seu Nome completo. Obs: Endpoint é sensível a maiúsculas e minúsculas
-
-Endpoint PUT  
-
-- ```"/api/pessoas"``` - Editar uma Pessoa
-- ```"/api/pessoas/{pessoaId}"``` -  Criar Endereço para uma Pessoa
-- ```"/api/pessoas/{pessoaId}/endereco/{enderecoId}"``` - Informar qual Endereço principal da Pessoa
+- ```"/pessoas"```- Listar pessoas
+- ```"/pessoas/{pessoaId}"``` - Consultar Pessoa usando seu Id e também listar endereços da pessoa
 
 Endpoint POST  
 
-- ```"/api/pessoas"``` - Criar uma Pessoa
+- ```"/pessoas"``` - Criar uma Pessoa por RequestBody
+
+Endpoint PUT  
+
+- ```"/pessoas"``` - Editar uma Pessoa
+- ```"/endereco/{pessoaId}"``` - Criar um Endereço para uma Pessoa por RequestBody
+- ```"/endereco/{pessoaId}/{enderecoId}"``` - Informar qual o Endreço principal da Pessoa
 
 Endpoint DELETE  
 
-- ```"/api/pessoas/{pessoaId}"``` - Deletar uma Pessoa | Este Endpoint não tinha no teste mas coloquei para testes.
+- ```"/pessoas/{pessoaId}"``` - Deletar uma Pessoa | Este Endpoint não tinha no teste mas coloquei para testes.
 
 #### Usando as Endpoints
 
-Veja os vídeos de demonstração para cada uso de Endpoint.
+O vídeo de demonstração é para uma versão antiga, mas os JSON ainda podem ser usados.
 
 [Clique na Imagem para abrir o video no youtube. Ou nesse texto mesmo.](https://www.youtube.com/watch?v=sOkYpMelZ18 "link")
 [![Test](https://i.imgur.com/vKtjKxd.png)](https://www.youtube.com/watch?v=sOkYpMelZ18 "Test")
 
-Endpoints usadas no vídeo.  
+Endpoints usadas no vídeo da versão antiga.  
 
 - POST ```http://localhost:8080/api/pessoas  ```
 ```
@@ -81,4 +91,3 @@ Endpoints usadas no vídeo.
 ```
 - PUT ```http://localhost:8080/api/pessoas/5/endereco/6```
 
-Atenção: Não esqueça de usar a opção Body > Raw > JSON ao criar algo na API.
