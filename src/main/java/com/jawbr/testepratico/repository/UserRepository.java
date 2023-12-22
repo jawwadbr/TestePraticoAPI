@@ -1,4 +1,4 @@
-package com.jawbr.testepratico.DAO;
+package com.jawbr.testepratico.repository;
 
 import com.jawbr.testepratico.entity.User;
 import org.springframework.data.jpa.repository.JpaRepository;

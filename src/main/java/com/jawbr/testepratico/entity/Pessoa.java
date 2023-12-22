@@ -19,86 +19,77 @@ import java.util.List;
 @Entity
 @Table(name = "pessoa")
 public class Pessoa {
-	
 
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name = "id")
-	private int id;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id")
+    private int id;
 
-	@Column(name = "nome")
-	private String nome;
+    @Column(name = "nome")
+    private String nome;
 
-	@Column(name = "data_nascimento")
-	@JsonFormat(pattern = "dd/MM/yyyy")
-	private LocalDate dataDeNascimento;
+    @Column(name = "data_nascimento")
+    @JsonFormat(pattern = "dd/MM/yyyy")
+    private LocalDate dataDeNascimento;
 
-	@OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-	@JoinColumn(name = "pessoa_id")
-	private List<Endereco> enderecos;
-	
-	public Pessoa() {}
+    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval = true)
+    @JoinColumn(name = "pessoa_id")
+    private List<Endereco> enderecos;
 
-	public Pessoa(String nome, LocalDate dataDeNascimento) {
-		this.nome = nome;
-		this.dataDeNascimento = dataDeNascimento;
-	}
+    public Pessoa() {
+    }
 
-	public Pessoa(String nome, LocalDate dataDeNascimento, List<Endereco> enderecos) {
-		this.nome = nome;
-		this.dataDeNascimento = dataDeNascimento;
-		this.enderecos = enderecos;
-	}
+    public Pessoa(String nome, LocalDate dataDeNascimento) {
+        this.nome = nome;
+        this.dataDeNascimento = dataDeNascimento;
+    }
 
-	public int getId() {
-		return id;
-	}
+    public Pessoa(String nome, LocalDate dataDeNascimento, List<Endereco> enderecos) {
+        this.nome = nome;
+        this.dataDeNascimento = dataDeNascimento;
+        this.enderecos = enderecos;
+    }
 
-	public void setId(int id) {
-		this.id = id;
-	}
+    public int getId() {
+        return id;
+    }
 
-	public String getNome() {
-		return nome;
-	}
+    public void setId(int id) {
+        this.id = id;
+    }
 
-	public void setNome(String nome) {
-		this.nome = nome;
-	}
+    public String getNome() {
+        return nome;
+    }
 
-	public LocalDate getDataDeNascimento() {
-		return dataDeNascimento;
-	}
+    public void setNome(String nome) {
+        this.nome = nome;
+    }
 
-	public void setDataDeNascimento(LocalDate dataDeNascimento) {
-		this.dataDeNascimento = dataDeNascimento;
-	}
+    public LocalDate getDataDeNascimento() {
+        return dataDeNascimento;
+    }
 
-	public List<Endereco> getEnderecos() {
-		return enderecos;
-	}
+    public void setDataDeNascimento(LocalDate dataDeNascimento) {
+        this.dataDeNascimento = dataDeNascimento;
+    }
 
-	public void setEnderecos(List<Endereco> enderecos) {
-		this.enderecos = enderecos;
-	}
+    public List<Endereco> getEnderecos() {
+        return enderecos;
+    }
 
-	public void setEndereco(Endereco endereco) {
-		this.enderecos.add(endereco);
-	}
-	
-	@Override
-	public String toString() {
-		return "Pessoa [id=" + id + ", nome=" + nome + ", dataDeNascimento=" + dataDeNascimento + "]";
-	}
-	
-	// Metodo de conveniencia para relação bi-direcional
-	public void addEndereco(Endereco tempEndereco) {
-		if(enderecos == null) {
-			enderecos = new ArrayList<>();
-		}
-		
-		enderecos.add(tempEndereco);
-	}
-	
+    public void setEnderecos(List<Endereco> enderecos) {
+        this.enderecos = enderecos;
+    }
+
+    // Metodo de conveniencia para relação bi-direcional
+    public void addEndereco(Endereco tempEndereco) {
+        if(enderecos == null) {
+            enderecos = new ArrayList<>();
+        }
+
+        enderecos.add(tempEndereco);
+    }
+
 }
 

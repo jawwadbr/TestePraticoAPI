@@ -1,18 +1,21 @@
-package com.jawbr.testepratico.customException;
+package com.jawbr.testepratico.exception.errorResponse;
 
 import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.Date;
 
-public class EnderecoErrorResponse {
+public class ErrorResponse {
 
     private int status;
     private String message;
     private String timeStamp;
 
-    public EnderecoErrorResponse(int status, String message, long timeStamp) {
+    public ErrorResponse(int status, String message) {
         this.status = status;
         this.message = message;
-        this.timeStamp = formatTimestamp(timeStamp);
+        this.timeStamp = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd hh:mm:ss a"));
+
     }
 
     public int getStatus() {
@@ -35,13 +38,7 @@ public class EnderecoErrorResponse {
         return timeStamp;
     }
 
-    public void setTimeStamp(long timeStamp) {
-        this.timeStamp = formatTimestamp(timeStamp);
-    }
-
-    private String formatTimestamp(long timeStamp) {
-        Date date = new Date(timeStamp);
-        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss a");
-        return formatter.format(date);
+    public void setTimeStamp(String timeStamp) {
+        this.timeStamp = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd hh:mm:ss a"));
     }
 }

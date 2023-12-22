@@ -1,93 +1,325 @@
+# Teste Prático Attornatus
 
-# Avaliação Java Back-end
+API simples para gerenciar Pessoas.
 
-Esta API foi desenvolvida em Java Spring Boot para o teste prático.
+Esta API está passando por uma reestruturação novamente e ainda não foi finalizada.
 
+### Desafio
 
-## Como Usar
+O objetivo desse desafio é a criação de uma API REST para gerenciar pessoas.
 
-### Passo 1
+#### Requisistos
 
-Baixe o projeto ou clone, importe o projeto Maven em uma IDE e execute como aplicativo a classe '[TestePraticoApplication .java](https://github.com/jawwadbr/TestePraticoAPI/blob/main/src/main/java/com/jawbr/testepratico/ApiPessoaApplication.java)'
+- Criar uma pessoa
+- Editar uma pessoa
+- Consultar uma pessoa
+- Listar pessoas
+- Criar endereço para pessoa
+- Listar endereços da pessoa
+- Poder informar qual endereço é o principal da pessoa
 
-É possível também iniciar o projeto navegando até o projeto com o comando:
+### Tecnologias
 
-`cd <project-name>`
+- [Java 17](https://docs.oracle.com/en/java/javase/17/)
+- [Spring Boot](https://spring.io/projects/spring-boot)
+- [Spring Data JPA](https://docs.spring.io/spring-data/data-jpa/docs/current/reference/html/#repositories)
+- [Spring Security](https://docs.spring.io/spring-security/reference/index.html)
 
-Construa o projeto:
+## Como usar
 
-`mvn clean install`
+### Localmente
 
-Execute com o comando:
+- Clone o repositório
+- Faça o build do projeto:
 
-`mvn spring-boot:run`
-
-A API vai ficar disponível em `http://localhost:8080/api/**`.
-
-Você vai ver no console algo assim: 
-![](https://i.imgur.com/Kv7uDed.png "example")
-
-Se você ver isso, significa que está no caminho certo.
-
-### Passo 2
-
-Caso o projeto esteja rodando sem problemas, é nesse momento que vamos começar utilizar as Endpoints e testar o projeto. E não se preocupe irei dar exemplos para cada uma delas.
-
-#### Todas Endpoints
-Começando pelas Endpoint de GET  
-
-- ```"/pessoas"```- Listar pessoas
-- ```"/pessoas/{pessoaId}"``` - Consultar Pessoa usando seu Id e também listar endereços da pessoa
-
-Endpoint POST  
-
-- ```"/pessoas"``` - Criar uma Pessoa por RequestBody
-
-Endpoint PUT  
-
-- ```"/pessoas"``` - Editar uma Pessoa
-- ```"/endereco/{pessoaId}"``` - Criar um Endereço para uma Pessoa por RequestBody
-- ```"/endereco/{pessoaId}/{enderecoId}"``` - Informar qual o Endreço principal da Pessoa
-
-Endpoint DELETE  
-
-- ```"/pessoas/{pessoaId}"``` - Deletar uma Pessoa | Este Endpoint não tinha no teste mas coloquei para testes.
-
-#### Usando as Endpoints
-
-O vídeo de demonstração é para uma versão antiga, mas os JSON ainda podem ser usados.
-
-[Clique na Imagem para abrir o video no youtube. Ou nesse texto mesmo.](https://www.youtube.com/watch?v=sOkYpMelZ18 "link")
-[![Test](https://i.imgur.com/vKtjKxd.png)](https://www.youtube.com/watch?v=sOkYpMelZ18 "Test")
-
-Endpoints usadas no vídeo da versão antiga.  
-
-- POST ```http://localhost:8080/api/pessoas  ```
+```shell
+./mvnw clean package
 ```
+
+- Execute o projeto
+
+```shell
+java -jar target/ApiPessoa-0.0.1-SNAPSHOT.jar
+```
+
+A API vai ficar disponivel em [localhost:8080](http://localhost:8080/api/pessoa).
+
+## Endpoints da API
+
+Para fazer as requisições da API o aplicativo [Postman](https://www.postman.com) foi usado:
+
+### Endpoints Públicas
+
+#### Endpoints de Pessoa
+
+- `GET /api/pessoa`
+- `GET /api/pessoa/consulta`
+
+**Parâmetros**
+
+|   Nome |        Requerido         |  Tipo  | Descrição       |
+|-------:|:------------------------:|:------:|-----------------|
+| `nome` |  opcional caso use `id`  | string | Nome da Pessoa. |
+|   `id` | opcional caso use `nome` |  int   | ID da Pessoa    |
+
+Resposta da requisição HTTP GET
+
+Caso usando `nome` como parâmetro e no banco de dados tenha mais de uma pessoa com aquele nome a resposta será assim:
+
+```json
 {
-    "nome": "Bradley Jawwad",
-    "dataDeNascimento": "04/09/1998"
+  "result": [
+    {
+      "nome": "João",
+      "data_de_nascimento": "09/04/1991",
+      "url_de_consulta_endereco": "/api/pessoa/consulta/endereco?id=1"
+    },
+    {
+      "nome": "João",
+      "data_de_nascimento": "09/04/1995",
+      "url_de_consulta_endereco": "/api/pessoa/consulta/endereco?id=2"
+    }
+  ]
 }
 ```
-- GET ```http://localhost:8080/api/pessoas  ```
-- GET ```http://localhost:8080/api/pessoas/5  ```
-- PUT ```http://localhost:8080/api/pessoas  ```
-```
-{
-    "id": 5,
-    "nome": "Bradley Jawwad",
-    "dataDeNascimento": "20/09/1958"
-}
-```
-- PUT ```http://localhost:8080/api/pessoas/5  ```
-```
-{
-    "logradouro": "Vila D'ouro",
-    "cep": 12345678,
-    "numero": 230,
-    "cidade": "São Paulo",
-    "enderecoPrincipal": false
-}
-```
-- PUT ```http://localhost:8080/api/pessoas/5/endereco/6```
 
+Se não, a resposta será assim:
+
+```json
+{
+  "result": {
+    "nome": "João",
+    "data_de_nascimento": "09/04/1991",
+    "url_de_consulta_endereco": "/api/pessoa/consulta/endereco?id=1"
+  }
+}
+```
+
+- `GET /api/pessoa/consulta/endereco`
+
+**Parâmetros**
+
+|   Nome |        Requerido         |  Tipo  | Descrição       |
+|-------:|:------------------------:|:------:|-----------------|
+| `nome` |  opcional caso use `id`  | string | Nome da Pessoa. |
+|   `id` | opcional caso use `nome` |  int   | ID da Pessoa    |
+
+Resposta da requisição HTTP GET
+
+Caso usando `nome` como parâmetro e no banco de dados tenha mais de uma pessoa com aquele nome a resposta será assim:
+
+```json
+{
+  "result": [
+    {
+      "nome": "João",
+      "enderecos": [
+        {
+          "logradouro": "Vila A",
+          "cep": 12345678,
+          "numero": 230,
+          "cidade": "São Paulo",
+          "endereco_principal": true
+        },
+        {
+          "logradouro": "Vila B",
+          "cep": 12345678,
+          "numero": 230,
+          "cidade": "São Paulo",
+          "endereco_principal": false
+        }
+      ]
+    },
+    {
+      "nome": "João",
+      "enderecos": [
+        {
+          "logradouro": "Vila B",
+          "cep": 12345678,
+          "numero": 230,
+          "cidade": "São Paulo",
+          "endereco_principal": false
+        },
+        {
+          "logradouro": "Vila C",
+          "cep": 12345678,
+          "numero": 230,
+          "cidade": "São Paulo",
+          "endereco_principal": true
+        }
+      ]
+    }
+  ]
+}
+```
+
+Se não, a resposta será assim:
+
+```json
+{
+  "result": {
+    "nome": "João",
+    "enderecos": [
+      {
+        "logradouro": "Vila A",
+        "cep": 12345678,
+        "numero": 230,
+        "cidade": "São Paulo",
+        "endereco_principal": true
+      },
+      {
+        "logradouro": "Vila B",
+        "cep": 12345678,
+        "numero": 230,
+        "cidade": "São Paulo",
+        "endereco_principal": false
+      }
+    ]
+  }
+}
+```
+
+- `POST /api/pessoa`
+
+Utilizando JSON Body para a requisição para criar uma Pessoa, os endereços são opcionais nesta endpoint.
+
+```json
+{
+    "nome": "João",
+    "data_de_nascimento": "09/04/1991",
+    "enderecos": [
+        {
+            "logradouro": "Vila D'ouro",
+            "cep": 12345678,
+            "numero": 230,
+            "cidade": "São Paulo",
+            "endereco_principal": true
+        },
+        {
+            "logradouro": "Vila D'ouro 2",
+            "cep": 12345678,
+            "numero": 230,
+            "cidade": "São Paulo 2",
+            "endereco_principal": false
+        }
+    ]
+}
+```
+
+Resposta da requisição HTTP POST
+
+```json
+{
+  "nome": "João",
+  "data_de_nascimento": "09/04/1991",
+  "url_de_consulta_endereco": "/api/pessoa/consulta/endereco?id=1"
+}
+```
+
+- `PATCH /api/pessoa/{id}`
+
+Por ser um mapeamento PATCH, não é necessario preencher todos os campos, apenas preencha o que vai ser editado.
+
+```json
+{
+  "nome": "Não é mais João",
+  "data_de_nascimento": "09/04/1991",
+  "enderecos": [
+    {
+      "logradouro": "Apenas 1 endereço",
+      "cep": 12345678,
+      "numero": 230,
+      "cidade": "São Paulo",
+      "endereco_principal": true
+    }
+  ]
+}
+```
+Resposta da requisição HTTP PATCH
+
+```json
+{
+  "nome": "Não é mais João",
+  "data_de_nascimento": "09/04/1991",
+  "url_de_consulta_endereco": "/api/pessoa/consulta/endereco?id=1"
+}
+```
+
+- `DELETE /api/pessoa/{id}`
+
+#### Endpoints de Endereço
+
+- `GET /api/endereco/consulta`
+
+**Parâmetros**
+
+|   Nome |        Requerido         |  Tipo  | Descrição       |
+|-------:|:------------------------:|:------:|-----------------|
+| `nome` |  opcional caso use `id`  | string | Nome da Pessoa. |
+|   `id` | opcional caso use `nome` |  int   | ID da Pessoa    |
+
+Resposta da requisição HTTP GET
+
+Caso usando `nome` como parâmetro e no banco de dados tenha mais de uma pessoa com aquele nome a resposta será assim:
+```json
+{
+  "result": [
+    {
+      "nome": "João",
+      "identificador": 1,
+      "enderecos": [
+        {
+          "logradouro": "Vila D'ouro",
+          "cep": 12345678,
+          "numero": 230,
+          "cidade": "São Paulo",
+          "endereco_principal": true,
+          "identificador": 1
+        }
+      ]
+    },
+    {
+      "nome": "João",
+      "identificador": 1,
+      "enderecos": [
+        {
+          "logradouro": "Vila D'ouro",
+          "cep": 12345678,
+          "numero": 230,
+          "cidade": "São Paulo",
+          "endereco_principal": false,
+          "identificador": 2
+        }
+      ]
+    },
+    {
+      "nome": "João",
+      "identificador": 2,
+      "enderecos": [
+        {
+          "logradouro": "Vila D'ouro",
+          "cep": 12345678,
+          "numero": 230,
+          "cidade": "São Paulo",
+          "endereco_principal": true,
+          "identificador": 3
+        }
+      ]
+    },
+    {
+      "nome": "João",
+      "identificador": 2,
+      "enderecos": [
+        {
+          "logradouro": "Vila D'ouro",
+          "cep": 12345678,
+          "numero": 230,
+          "cidade": "São Paulo",
+          "endereco_principal": false,
+          "identificador": 4
+        }
+      ]
+    }
+  ]
+}
+```

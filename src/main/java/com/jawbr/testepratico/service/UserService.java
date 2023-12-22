@@ -1,6 +1,6 @@
 package com.jawbr.testepratico.service;
 
-import com.jawbr.testepratico.DAO.UserRepository;
+import com.jawbr.testepratico.repository.UserRepository;
 import com.jawbr.testepratico.entity.User;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -34,7 +34,6 @@ public class UserService implements UserDetailsService {
         User user = userRepository.findByUsername(username);
 
         if(user == null) {
-            System.out.println("teste");
             throw new UsernameNotFoundException("username ou senha inválida.");
         }
 
