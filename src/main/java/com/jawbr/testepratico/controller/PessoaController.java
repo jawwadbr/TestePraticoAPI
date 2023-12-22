@@ -3,6 +3,7 @@ package com.jawbr.testepratico.controller;
 import com.jawbr.testepratico.dto.ListarPessoasDTO;
 import com.jawbr.testepratico.dto.PessoaDTO;
 import com.jawbr.testepratico.dto.ResponseEntityDTO;
+import com.jawbr.testepratico.dto.request.EnderecoRequestDTO;
 import com.jawbr.testepratico.dto.request.PessoaRequestDTO;
 import com.jawbr.testepratico.service.PessoaService;
 import jakarta.validation.Valid;
@@ -63,4 +64,11 @@ public class PessoaController {
         pessoaService.deleteById(id);
         return ResponseEntity.noContent().build();
     }
+
+    // Criar um endereco para pessoa
+    @PostMapping("/{id}/endereco")
+    public PessoaDTO createEnderecoToPessoa(@PathVariable int id, @Valid @RequestBody EnderecoRequestDTO enderecoRequestDTO) {
+        return pessoaService.createEndereco(id, enderecoRequestDTO);
+    }
+
 }

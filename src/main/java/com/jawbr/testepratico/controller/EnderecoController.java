@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/api/endereco")
+@RequestMapping("/api")
 public class EnderecoController {
 
     private final EnderecoService enderecoService;
@@ -20,20 +20,24 @@ public class EnderecoController {
         this.enderecoService = enderecoService;
     }
 
-    // Criar um novo endereco para pessoa
-
     // Consultar endereco de pessoa
-    @GetMapping("/consulta")
+    @GetMapping("endereco/consulta")
     public ResponseEntityDTO findEnderecoFromPessoa(@RequestParam(name = "nome", required = false) String nome,
                                                     @RequestParam(name = "id", required = false) Integer id)
     {
         return enderecoService.findEnderecoFromPessoa(nome, id);
     }
 
+    // Consultar endereço principal da pessoa
+    @GetMapping("/pessoa/{pessoaId}/endereco-principal")
+    public ResponseEntityDTO findEnderecosPrincipalFromPessoa(@PathVariable int pessoaId) {
+        return enderecoService.findEnderecosPrincipalFromPessoa(pessoaId);
+    }
+
     // Informar qual endereco é o principal
-//    @PutMapping("/{pessoaId}/{enderecoId}")
-//    public ResponseEntity<Void> setEnderecoPrincipal(@PathVariable int pessoaId, @PathVariable int enderecoId) {
-//        enderecoService.updateEnderecoPrincipal(enderecoId, pessoaId);
-//        return ResponseEntity.noContent().build();
-//    }
+    @PutMapping("/endereco/{pessoaId}/{enderecoId}")
+    public ResponseEntity<Void> setEnderecoPrincipal(@PathVariable int pessoaId, @PathVariable int enderecoId) {
+        enderecoService.updateEnderecoPrincipal(enderecoId, pessoaId);
+        return ResponseEntity.noContent().build();
+    }
 }

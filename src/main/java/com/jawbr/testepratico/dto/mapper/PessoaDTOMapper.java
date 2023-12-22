@@ -57,7 +57,7 @@ public class PessoaDTOMapper implements Function<Pessoa, PessoaDTO> {
         List<Endereco> enderecoList = new ArrayList<>();
         for(EnderecoRequestDTO enderecoDTO : pessoaRequestDTO.enderecos()) {
             Endereco e = new Endereco(enderecoDTO.logradouro(),
-                    enderecoDTO.cep(),
+                    Long.parseLong(enderecoDTO.cep()),
                     enderecoDTO.numero(),
                     enderecoDTO.cidade());
             e.setEnderecoPrincipal(enderecoDTO.endereco_principal());

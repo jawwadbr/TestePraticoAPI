@@ -58,6 +58,14 @@ public class Endereco {
         this.pessoa = pessoa;
     }
 
+    public Endereco(String logradouro, long cep, int numero, String cidade, boolean enderecoPrincipal) {
+        this.logradouro = logradouro;
+        this.cep = cep;
+        this.numero = numero;
+        this.cidade = cidade;
+        this.enderecoPrincipal = enderecoPrincipal;
+    }
+
     public Endereco(int id, String logradouro, long cep, int numero, String cidade, boolean enderecoPrincipal) {
         this.id = id;
         this.logradouro = logradouro;

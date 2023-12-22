@@ -179,77 +179,11 @@ Se não, a resposta será assim:
 }
 ```
 
-- `POST /api/pessoa`
-
-Utilizando JSON Body para a requisição para criar uma Pessoa, os endereços são opcionais nesta endpoint.
-
-```json
-{
-    "nome": "João",
-    "data_de_nascimento": "09/04/1991",
-    "enderecos": [
-        {
-            "logradouro": "Vila D'ouro",
-            "cep": 12345678,
-            "numero": 230,
-            "cidade": "São Paulo",
-            "endereco_principal": true
-        },
-        {
-            "logradouro": "Vila D'ouro 2",
-            "cep": 12345678,
-            "numero": 230,
-            "cidade": "São Paulo 2",
-            "endereco_principal": false
-        }
-    ]
-}
-```
-
-Resposta da requisição HTTP POST
-
-```json
-{
-  "nome": "João",
-  "data_de_nascimento": "09/04/1991",
-  "url_de_consulta_endereco": "/api/pessoa/consulta/endereco?id=1"
-}
-```
-
-- `PATCH /api/pessoa/{id}`
-
-Por ser um mapeamento PATCH, não é necessario preencher todos os campos, apenas preencha o que vai ser editado.
-
-```json
-{
-  "nome": "Não é mais João",
-  "data_de_nascimento": "09/04/1991",
-  "enderecos": [
-    {
-      "logradouro": "Apenas 1 endereço",
-      "cep": 12345678,
-      "numero": 230,
-      "cidade": "São Paulo",
-      "endereco_principal": true
-    }
-  ]
-}
-```
-Resposta da requisição HTTP PATCH
-
-```json
-{
-  "nome": "Não é mais João",
-  "data_de_nascimento": "09/04/1991",
-  "url_de_consulta_endereco": "/api/pessoa/consulta/endereco?id=1"
-}
-```
-
-- `DELETE /api/pessoa/{id}`
-
 #### Endpoints de Endereço
 
 - `GET /api/endereco/consulta`
+
+Endpoint possui um campo extra chamado `Indentificador` que serve como o ID para Pessoa e Endereço.
 
 **Parâmetros**
 
@@ -322,4 +256,145 @@ Caso usando `nome` como parâmetro e no banco de dados tenha mais de uma pessoa 
     }
   ]
 }
+```
+
+- `GET /api/pessoa/{pessoaId}/endereco-principal`
+
+Resposta da requisição HTTP GET
+
+```json
+{
+    "result": {
+        "nome": "João",
+        "identificador": 1,
+        "enderecos": [
+            {
+                "logradouro": "Vila F",
+                "cep": 12345678,
+                "numero": 230,
+                "cidade": "São Paulo",
+                "endereco_principal": true,
+                "identificador": 1
+            }
+        ]
+    }
+}
+```
+
+### Endpoints Não Públicas
+
+#### Endpoints de Autenticação
+
+- `POST /api/user/register`
+
+Para uso rápido neste projeto de teste, todos os novos usuarios serão considerados ADMIN.
+
+```json
+{
+    "username": "user",
+    "password": "pass"
+}
+```
+
+#### Endpoints de Pessoa
+
+- `POST /api/pessoa`
+
+Utilizando JSON Body para a requisição para criar uma Pessoa, os endereços são opcionais nesta endpoint.
+
+```json
+{
+    "nome": "João",
+    "data_de_nascimento": "09/04/1991",
+    "enderecos": [
+        {
+            "logradouro": "Vila D'ouro",
+            "cep": 12345678,
+            "numero": 230,
+            "cidade": "São Paulo",
+            "endereco_principal": true
+        },
+        {
+            "logradouro": "Vila D'ouro 2",
+            "cep": 12345678,
+            "numero": 230,
+            "cidade": "São Paulo 2",
+            "endereco_principal": false
+        }
+    ]
+}
+```
+
+Resposta da requisição HTTP POST
+
+```json
+{
+  "nome": "João",
+  "data_de_nascimento": "09/04/1991",
+  "url_de_consulta_endereco": "/api/pessoa/consulta/endereco?id=1"
+}
+```
+
+- `POST api/pessoa/{id}/endereco`
+
+Para criar endereco para uma pessoa
+```json
+{
+    "logradouro": "Vila D'ouro criado",
+    "cep": 12345678,
+    "numero": 230,
+    "cidade": "São Paulo",
+    "endereco_principal": true
+}
+```
+Resposta da requisição HTTP POST
+
+```json
+{
+    "nome": "João",
+    "data_de_nascimento": "09/04/1991",
+    "url_de_consulta_endereco": "/api/pessoa/consulta/endereco?id=1"
+}
+```
+
+- `PATCH /api/pessoa/{id}`
+
+Por ser um mapeamento PATCH, não é necessario preencher todos os campos, apenas preencha o que vai ser editado.
+
+```json
+{
+  "nome": "Não é mais João",
+  "data_de_nascimento": "09/04/1991",
+  "enderecos": [
+    {
+      "logradouro": "Apenas 1 endereço",
+      "cep": 12345678,
+      "numero": 230,
+      "cidade": "São Paulo",
+      "endereco_principal": true
+    }
+  ]
+}
+```
+Resposta da requisição HTTP PATCH
+
+```json
+{
+  "nome": "Não é mais João",
+  "data_de_nascimento": "09/04/1991",
+  "url_de_consulta_endereco": "/api/pessoa/consulta/endereco?id=1"
+}
+```
+
+- `DELETE /api/pessoa/{id}`
+
+#### Endpoints de Endereço
+
+- `PUT /api/endereco/{pessoaId}/{enderecoId}`
+
+Informar qual o endereço principal de uma pessoa.
+
+Resposta da requisição HTTP PUT
+```
+204 No content
 ```

@@ -2,6 +2,7 @@ package com.jawbr.testepratico.dto.mapper;
 
 import com.jawbr.testepratico.dto.EnderecoDTO;
 import com.jawbr.testepratico.dto.PessoaDTO;
+import com.jawbr.testepratico.dto.request.EnderecoRequestDTO;
 import com.jawbr.testepratico.entity.Endereco;
 import org.springframework.stereotype.Service;
 
@@ -36,6 +37,16 @@ public class EnderecoDTOMapper implements Function<Endereco, EnderecoDTO> {
                                 endereco.isEnderecoPrincipal(),
                                 endereco.getId())),
                 null
+        );
+    }
+
+    public Endereco applyEnderecoRequestToEntity(EnderecoRequestDTO enderecoRequestDTO) {
+        return new Endereco(
+                enderecoRequestDTO.logradouro(),
+                Long.parseLong(enderecoRequestDTO.cep()),
+                enderecoRequestDTO.numero(),
+                enderecoRequestDTO.cidade(),
+                enderecoRequestDTO.endereco_principal()
         );
     }
 }

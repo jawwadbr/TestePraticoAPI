@@ -3,6 +3,7 @@ package com.jawbr.testepratico.service;
 import com.jawbr.testepratico.dto.ListarPessoasDTO;
 import com.jawbr.testepratico.dto.PessoaDTO;
 import com.jawbr.testepratico.dto.ResponseEntityDTO;
+import com.jawbr.testepratico.dto.mapper.EnderecoDTOMapper;
 import com.jawbr.testepratico.dto.mapper.ListarPessoasDTOMapper;
 import com.jawbr.testepratico.dto.mapper.PessoaDTOMapper;
 import com.jawbr.testepratico.dto.request.EnderecoRequestDTO;
@@ -31,12 +32,14 @@ public class PessoaService {
     private final PessoaDTOMapper pessoaDTOMapper;
     private final UserService userService;
     private final ListarPessoasDTOMapper listarPessoasDTOMapper;
+    private final EnderecoDTOMapper enderecoDTOMapper;
 
-    public PessoaService(PessoaRepository pessoaRepository, PessoaDTOMapper pessoaDTOMapper, UserService userService, ListarPessoasDTOMapper listarPessoasDTOMapper) {
+    public PessoaService(PessoaRepository pessoaRepository, PessoaDTOMapper pessoaDTOMapper, UserService userService, ListarPessoasDTOMapper listarPessoasDTOMapper, EnderecoDTOMapper enderecoDTOMapper) {
         this.pessoaRepository = pessoaRepository;
         this.pessoaDTOMapper = pessoaDTOMapper;
         this.userService = userService;
         this.listarPessoasDTOMapper = listarPessoasDTOMapper;
+        this.enderecoDTOMapper = enderecoDTOMapper;
     }
 
     // Listar Pessoas
@@ -61,7 +64,7 @@ public class PessoaService {
             // Consultar uma pessoa específica
             PessoaDTO pessoaById = pessoaRepository.findById(id)
                     .map(pessoaDTOMapper)
-                    .orElseThrow(() -> new PessoaNotFoundException(String.format("Pessoa com id '%o' não foi encontrada.", id)));
+                    .orElseThrow(() -> new PessoaNotFoundException(String.format("Pessoa com id '%d' não foi encontrada.", id)));
             return new ResponseEntityDTO(pessoaById);
         }
 
@@ -81,7 +84,7 @@ public class PessoaService {
         else if(id != null) {
             PessoaDTO pessoasEnderecosById = pessoaRepository.findById(id)
                     .map(pessoaDTOMapper::applyWithEndereco)
-                    .orElseThrow(() -> new PessoaNotFoundException(String.format("Pessoa com id '%o' não foi encontrada.", id)));
+                    .orElseThrow(() -> new PessoaNotFoundException(String.format("Pessoa com id '%d' não foi encontrada.", id)));
             return new ResponseEntityDTO(pessoasEnderecosById);
         }
 
@@ -102,7 +105,7 @@ public class PessoaService {
 
         Pessoa pessoa = pessoaRepository.findById(id)
                 .orElseThrow(() ->
-                        new PessoaNotFoundException(String.format("Pessoa com id '%o' não foi encontrada.", id)));
+                        new PessoaNotFoundException(String.format("Pessoa com id '%d' não foi encontrada.", id)));
 
         final String nomePessoa = StringUtils.hasText(pessoaRequest.nome()) ? pessoaRequest.nome() : pessoa.getNome();
 
@@ -165,6 +168,24 @@ public class PessoaService {
                     throw new PessoaNotFoundException("Pessoa com id " + pessoaId + " não encontrada.");
                 }
         );
+    }
+
+    public PessoaDTO createEndereco(int id, EnderecoRequestDTO enderecoRequestDTO) {
+        Pessoa pessoa = pessoaRepository.findById(id)
+                .orElseThrow(() -> new PessoaNotFoundException(
+                        String.format("Pessoa com id '%d' não foi encontrada.", id)));
+
+        Endereco newEndereco = enderecoDTOMapper.applyEnderecoRequestToEntity(enderecoRequestDTO);
+
+        if(enderecoRequestDTO.endereco_principal()) {
+            pessoa.getEnderecos().forEach(endereco -> endereco.setEnderecoPrincipal(false));
+        }
+
+        pessoa.addEndereco(newEndereco);
+
+        pessoaRepository.save(pessoa);
+
+        return pessoaDTOMapper.apply(pessoa);
     }
 
     private void doesPessoaHaveMultiplePrincipalAddress(PessoaRequestDTO pessoaRequestDTO) {
